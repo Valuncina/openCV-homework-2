@@ -4,7 +4,7 @@
 using namespace cv;
 
 int main() {
-    Mat img = imread("build/image_0.png");
+    Mat img = imread("resources/image_0.png");
     if (img.empty()) {
         std::cerr << "Cannot read image! 请检查图片路径\n";
         return 1;
