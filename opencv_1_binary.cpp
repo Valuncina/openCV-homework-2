@@ -4,7 +4,7 @@
 using namespace cv;
 
 int main() {
-    Mat img = imread("image_0.png");
+    Mat img = imread("resources/image_0.png");
     if (img.empty()) {
         std::cerr << "Cannot read image! 请检查图片路径\n";
         return 1;
@@ -25,6 +25,17 @@ int main() {
     
     waitKey(0);
 
+
+    Mat binary , adaptive;
+    threshold(gray, binary, 128, 255, THRESH_BINARY);
+    adaptiveThreshold(gray,adaptive,255,ADAPTIVE_THRESH_GAUSSIAN_C,THRESH_BINARY,11,2);
+
+    namedWindow("Binary",WINDOW_NORMAL);
+    imshow("Binary",binary);
+    namedWindow("Adaptive",WINDOW_NORMAL);
+    imshow("Adaptive",adaptive);
+    waitKey(0);
+    
     destroyAllWindows(); // 主动释放所有窗口资源，比直接点叉优雅
     return 0;
 }
