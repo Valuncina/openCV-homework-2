@@ -39,6 +39,10 @@ add_executable(opencv_1_sobel opencv_1_sobel.cpp)
 target_link_libraries(opencv_1_sobel ${OpenCV_LIBS})
 target_link_libraries(opencv_1_sobel Eigen3::Eigen)
 
-add_executable(matrix matrix_1.cpp)
+add_executable(matrix_1 matrix_1.cpp)
 
-target_link_libraries(matrix Eigen3::Eigen)
+target_link_libraries(matrix_1 Eigen3::Eigen)
+
+add_executable(matrix_1_rotate matrix_1_rotate.cpp)
+
+target_link_libraries(matrix_1_rotate Eigen3::Eigen)
