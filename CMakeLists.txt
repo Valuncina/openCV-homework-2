@@ -46,3 +46,8 @@ target_link_libraries(matrix_1 Eigen3::Eigen)
 add_executable(matrix_1_rotate matrix_1_rotate.cpp)
 
 target_link_libraries(matrix_1_rotate Eigen3::Eigen)
+
+add_executable(opencv_1_canny opencv_1_canny.cpp)
+
+target_link_libraries(opencv_1_canny ${OpenCV_LIBS})
+target_link_libraries(opencv_1_canny Eigen3::Eigen)

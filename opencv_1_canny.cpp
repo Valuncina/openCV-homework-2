@@ -25,6 +25,15 @@ int main() {
     
     waitKey(0);
 
+
+    Mat smooth, cannyImg;
+    GaussianBlur(gray, smooth, Size(5,5), 1.5);
+    Canny(smooth, cannyImg, 30, 90);
+    namedWindow("Canny", WINDOW_NORMAL);
+    
+    imshow("Canny", cannyImg);
+    waitKey(0);
+    
     destroyAllWindows(); // 主动释放所有窗口资源，比直接点叉优雅
     return 0;
 }
