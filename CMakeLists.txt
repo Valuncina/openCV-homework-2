@@ -18,38 +18,5 @@ find_package(Eigen3 REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-# 6. 生成可执行文件 (左边是生成的名字，右边是源文件)
-add_executable(opencv_1 opencv_1.cpp)
-
-# 7. 链接库到可执行文件
-target_link_libraries(opencv_1 ${OpenCV_LIBS})
-target_link_libraries(opencv_1 Eigen3::Eigen)
-
-# 生成可执行文件 (左边是生成的名字，右边是源文件)
-add_executable(opencv_1_salt_pepper opencv_1_salt_pepper.cpp)
-
-# 链接库到可执行文件
-target_link_libraries(opencv_1_salt_pepper ${OpenCV_LIBS})
-
-
-# 生成可执行文件 (左边是生成的名字，右边是源文件)
-add_executable(opencv_1_sobel opencv_1_sobel.cpp)
-target_link_libraries(opencv_1_sobel ${OpenCV_LIBS})
-
-add_executable(matrix_1 matrix_1.cpp)
-target_link_libraries(matrix_1 Eigen3::Eigen)
-
-add_executable(matrix_1_rotate matrix_1_rotate.cpp)
-target_link_libraries(matrix_1_rotate Eigen3::Eigen)
-
-add_executable(opencv_1_canny opencv_1_canny.cpp)
-target_link_libraries(opencv_1_canny ${OpenCV_LIBS})
-
-add_executable(opencv_1_HSV_Eq opencv_1_HSV_Eq.cpp)
-target_link_libraries(opencv_1_HSV_Eq ${OpenCV_LIBS})
-
-add_executable(opencv_1_binary opencv_1_binary.cpp)
-target_link_libraries(opencv_1_binary ${OpenCV_LIBS})
-
-add_executable(main main.cpp read_origin.cpp)
+add_executable(main main.cpp func.cpp)
 target_link_libraries(main ${OpenCV_LIBS})
