@@ -28,7 +28,13 @@ int main() {
 
     Mat binary , adaptive;
     threshold(gray, binary, 128, 255, THRESH_BINARY);
-    adaptiveThreshold(gray,adaptive,255,ADAPTIVE_THRESH_GAUSSIAN_C,THRESH_BINARY,11,2);
+    GaussianBlur(gray, gray, Size(7, 7), 2.0); 
+    //先高斯去噪，防止噪声影响自适应阈值分割
+    adaptiveThreshold(gray, adaptive, 255,ADAPTIVE_THRESH_GAUSSIAN_C,THRESH_BINARY,11,2);
+
+    Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(2, 2));
+    morphologyEx(adaptive, adaptive, MORPH_CLOSE, kernel); 
+    // 填补内部黑点
 
     namedWindow("Binary",WINDOW_NORMAL);
     imshow("Binary",binary);
