@@ -13,6 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(OpenCV REQUIRED)
 # 查找 Eigen3（Eigen 通常提供 Eigen3::Eigen 这个目标，如果报错可以改成 find_package(Eigen3 REQUIRED)）
 find_package(Eigen3 REQUIRED)
+# 查找 Ceres
+find_package(Ceres REQUIRED)
 
 # 5. 添加头文件搜索路径（现代 CMake 其实更推荐 target_include_directories，为了新手好懂先这么写）
 include_directories(${OpenCV_INCLUDE_DIRS})
@@ -27,5 +29,17 @@ target_link_libraries(matrix_basic Eigen3::Eigen)
 add_executable(linear_fit linear_fit.cpp )
 target_link_libraries(linear_fit Eigen3::Eigen)
 
-add_executable(fit fit.cpp)
-target_link_libraries(fit Eigen3::Eigen)
+# add_executable(fit fit.cpp)
+# target_link_libraries(fit Eigen3::Eigen)
+# target_link_libraries(fit ${OpenCV_LIBS})
+# target_link_libraries(fit Ceres::ceres)
+
+add_executable(ceres_basic ceres_basic.cpp)
+target_link_libraries(ceres_basic Eigen3::Eigen)
+target_link_libraries(ceres_basic ${OpenCV_LIBS})
+target_link_libraries(ceres_basic Ceres::ceres)
+
+add_executable(sigmoidfit sigmoidfit.cpp)
+target_link_libraries(sigmoidfit Eigen3::Eigen)
+target_link_libraries(sigmoidfit ${OpenCV_LIBS})
+target_link_libraries(sigmoidfit Ceres::ceres)
