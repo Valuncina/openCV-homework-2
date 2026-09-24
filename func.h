@@ -7,14 +7,16 @@
 
 cv::Mat read_origin(const std::string& filename);
 
-// 提取红色区域掩膜（输入 BGR 图，输出单通道 Mask）
+// 提取红色区域
 cv::Mat HSV_red(const cv::Mat& img);
 
 cv::Mat refine_mask(cv::Mat& mask0);
 
 cv::Mat threshold_mask(const cv::Mat& Mask);
 
-cv::Mat select_red_regions(const cv::Mat& sure_fg, const cv::Mat& draw);
+cv::Mat select_1(const cv::Mat& sure_fg, const cv::Mat& draw);
+
+cv::Mat select_2(const cv::Mat& morph, const cv::Mat& img);
 
 cv::Mat gray(const cv::Mat& img);
 

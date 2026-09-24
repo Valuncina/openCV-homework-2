@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # 2. 声明项目名称和使用的语言
-project(opencv_1 CXX)
+project(flower CXX)
 
 # 3. 设置 C++ 标准（推荐 C++17 或 14）
 set(CMAKE_CXX_STANDARD 17)
@@ -20,3 +20,12 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 
 add_executable(main main.cpp func.cpp)
 target_link_libraries(main ${OpenCV_LIBS})
+
+add_executable(matrix_basic matrix_basic.cpp )
+target_link_libraries(matrix_basic Eigen3::Eigen)
+
+add_executable(linear_fit linear_fit.cpp )
+target_link_libraries(linear_fit Eigen3::Eigen)
+
+add_executable(fit fit.cpp)
+target_link_libraries(fit Eigen3::Eigen)

@@ -1,4 +1,4 @@
-// read_origin.cpp
+// func.cpp
 #include "func.h"
 #include <iostream>
 #include <opencv2/opencv.hpp>
@@ -31,8 +31,8 @@ Mat HSV_red(const Mat& img) {
     cvtColor(img, hsv, cv::COLOR_BGR2HSV);
 
     // 红色跨越色相两端，需要用两段范围
-    inRange(hsv, Scalar(0,   110, 90), Scalar(9,   255, 255), Masklow);
-    inRange(hsv, Scalar(160, 110, 90), Scalar(179, 255, 255), Maskhigh);
+    inRange(hsv, Scalar(0,   70, 50), Scalar(9,   255, 255), Masklow);
+    inRange(hsv, Scalar(160, 70, 50), Scalar(179, 255, 255), Maskhigh);
     bitwise_or(Masklow, Maskhigh, Mask0);
 
     return Mask0;
@@ -46,11 +46,11 @@ Mat refine_mask(Mat& mask0) {
 
     Mat mask, mid;
 
-    // 闭运算：填补小孔洞
+    // 闭运算
     Mat kernel_close = getStructuringElement(MORPH_ELLIPSE, Size(5, 5));
     morphologyEx(mask0, mid, MORPH_CLOSE, kernel_close, Point(-1, -1), 1);
 
-    // 开运算：去除噪点
+    // 开运算
     Mat kernel_open = getStructuringElement(MORPH_RECT, Size(11, 11));
     morphologyEx(mid, mask, MORPH_OPEN, kernel_open, Point(-1, -1), 3);
 
@@ -63,7 +63,7 @@ Mat threshold_mask(const Mat& Mask) {
     distanceTransform(Mask, dist, DIST_L2, 3);
     normalize(dist, dist, 0, 255, NORM_MINMAX); // 归一化到 0~255
 
-    // 阈值化，只保留最高峰（种子点）
+    // 阈值化，只保留最高峰
     Mat sure_fg;
     threshold(dist, sure_fg, 110, 255, THRESH_BINARY); 
     sure_fg.convertTo(sure_fg, CV_8U);
@@ -72,7 +72,7 @@ Mat threshold_mask(const Mat& Mask) {
 }
 
 
-Mat select_red_regions(const Mat& sure_fg, const Mat& draw) {
+Mat select_1(const Mat& sure_fg, const Mat& draw) {
     std::vector<std::vector<Point>> contours_seed;
     findContours(sure_fg, contours_seed, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
@@ -82,7 +82,7 @@ Mat select_red_regions(const Mat& sure_fg, const Mat& draw) {
         Rect rect = boundingRect(contours_seed[i]);
         if (rect.height == 0) continue;
         double aspect_ratio = (double)rect.width / rect.height;
-        if (!(aspect_ratio > 0.3 && aspect_ratio < 2.0 && area > 70)) continue;
+        if (!(aspect_ratio > 0.3 && aspect_ratio < 2.0 && area > 120)) continue;
         //形状、面积筛选
 
          int padding = 15; 
@@ -101,6 +101,16 @@ Mat select_red_regions(const Mat& sure_fg, const Mat& draw) {
 
 }
 
+Mat select_2(const Mat& morph,const Mat& img){
+
+    std::vector<std::vector<Point>> contours;
+    std::vector<Vec4i> hierarchy;
+    findContours(morph, contours, hierarchy,RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+    Mat contourImg = Mat::zeros(img.size(), CV_8UC3);
+    drawContours(contourImg, contours, -1, Scalar(0, 255, 0), 2);
+    return contourImg;
+}
+
 
 Mat gray(const Mat& img) {
     Mat gray;
@@ -112,11 +122,11 @@ Mat gray(const Mat& img) {
 Mat sobel_me(const Mat& gray) {
     Mat gradX, gradY, absX, absY, grad;
     
-    // 计算 X 和 Y 方向梯度（必须用 CV_16S 保存负数）
+    // 计算 X 和 Y 方向梯度
     Sobel(gray, gradX, CV_16S, 1, 0);
     Sobel(gray, gradY, CV_16S, 0, 1);
     
-    // 取绝对值并转回 8 位（CV_8U）用于显示
+    // 取绝对值
     convertScaleAbs(gradX, absX);
     convertScaleAbs(gradY, absY);
     
@@ -132,6 +142,8 @@ Mat equalizeHist_me(const Mat& gray) {
     equalizeHist(gray, equalized);
     return equalized;
 }
+
+
 
 
 Mat canny_me(const Mat& gray) {
