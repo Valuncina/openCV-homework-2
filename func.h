@@ -28,4 +28,6 @@ cv::Mat canny_me(const cv::Mat& gray);
 
 cv::Mat adaptive_me(const cv::Mat& gray);
 
+cv::Mat blur_me(const cv::Mat& img);
+
 #endif

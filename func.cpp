@@ -13,7 +13,14 @@ Mat read_origin(const std::string& filename) {
     return img;
 }
 
-// ===== 新增：红色掩膜提取 =====
+
+Mat blur_me(const Mat& img) {
+    Mat gaussianImg;
+    GaussianBlur(img, gaussianImg, Size(5, 5), 1.5);
+    return gaussianImg;
+}
+
+
 Mat HSV_red(const Mat& img) {
     if (img.empty()) {
         std::cerr << "extract_red_mask: 输入为空\n";
@@ -40,11 +47,11 @@ Mat refine_mask(Mat& mask0) {
     Mat mask, mid;
 
     // 闭运算：填补小孔洞
-    Mat kernel_close = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
+    Mat kernel_close = getStructuringElement(MORPH_ELLIPSE, Size(5, 5));
     morphologyEx(mask0, mid, MORPH_CLOSE, kernel_close, Point(-1, -1), 1);
 
     // 开运算：去除噪点
-    Mat kernel_open = getStructuringElement(MORPH_ELLIPSE, Size(9, 9));
+    Mat kernel_open = getStructuringElement(MORPH_RECT, Size(11, 11));
     morphologyEx(mid, mask, MORPH_OPEN, kernel_open, Point(-1, -1), 3);
 
     return mask;
@@ -75,7 +82,7 @@ Mat select_red_regions(const Mat& sure_fg, const Mat& draw) {
         Rect rect = boundingRect(contours_seed[i]);
         if (rect.height == 0) continue;
         double aspect_ratio = (double)rect.width / rect.height;
-        if (!(aspect_ratio > 0.2 && aspect_ratio < 2.0 && area > 100)) continue;
+        if (!(aspect_ratio > 0.3 && aspect_ratio < 2.0 && area > 70)) continue;
         //形状、面积筛选
 
          int padding = 15; 
