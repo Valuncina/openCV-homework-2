@@ -20,8 +20,8 @@ find_package(Ceres REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-add_executable(main main.cpp func.cpp)
-target_link_libraries(main ${OpenCV_LIBS})
+add_executable(task1 task1.cpp func.cpp)
+target_link_libraries(task1 ${OpenCV_LIBS})
 
 add_executable(matrix_basic matrix_basic.cpp )
 target_link_libraries(matrix_basic Eigen3::Eigen)
@@ -43,3 +43,9 @@ add_executable(sigmoidfit sigmoidfit.cpp)
 target_link_libraries(sigmoidfit Eigen3::Eigen)
 target_link_libraries(sigmoidfit ${OpenCV_LIBS})
 target_link_libraries(sigmoidfit Ceres::ceres)
+
+add_executable(task2 task2.cpp)
+target_link_libraries(task2 Eigen3::Eigen)
+target_link_libraries(task2 ${OpenCV_LIBS})
+target_link_libraries(task2 Ceres::ceres)
+
