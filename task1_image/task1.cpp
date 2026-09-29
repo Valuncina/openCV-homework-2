@@ -12,6 +12,21 @@ int main() {
     imshow("Original", img);
     waitKey(0);
 
+
+    Mat hsv;
+    cvtColor(img, hsv, COLOR_BGR2HSV);
+    Mat h_img, s_img, v_img;
+    splitHSV(hsv, h_img, s_img, v_img);
+
+    namedWindow("H", WINDOW_NORMAL);
+    namedWindow("S", WINDOW_NORMAL);
+    namedWindow("V", WINDOW_NORMAL);
+    imshow("H", h_img);
+    imshow("S", s_img);
+    imshow("V", v_img);
+    waitKey(0);
+    
+
     Mat gray_img = gray(img);
 
     Mat GI = blur_me(img);
@@ -37,6 +52,8 @@ int main() {
     namedWindow("Recognition", WINDOW_NORMAL);
     imshow("Recognition", drawn_1);
     waitKey(0);
+
+    
 
     
 

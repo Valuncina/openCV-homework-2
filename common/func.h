@@ -32,4 +32,6 @@ cv::Mat adaptive_me(const cv::Mat& gray);
 
 cv::Mat blur_me(const cv::Mat& img);
 
+void splitHSV(const cv::Mat& hsv, cv::Mat& h_out, cv::Mat& s_out, cv::Mat& v_out);
+
 #endif

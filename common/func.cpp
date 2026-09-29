@@ -21,6 +21,16 @@ Mat blur_me(const Mat& img) {
 }
 
 
+void splitHSV(const cv::Mat& hsv, cv::Mat& h_out, cv::Mat& s_out, cv::Mat& v_out)
+{
+    std::vector<cv::Mat> channels;
+    cv::split(hsv, channels);
+
+    h_out = channels[0].clone();
+    s_out = channels[1].clone();
+    v_out = channels[2].clone();
+}
+
 
 Mat HSV_red(const Mat& img) {
     if (img.empty()) {
