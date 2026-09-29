@@ -84,8 +84,8 @@ static double linearFitForGivenC(double c,
 
 
 int main(int argc, char** argv) {
-    std::string videoPath = (argc > 1) ? argv[1] : "resources/task_2.mp4";
-    cv::VideoCapture cap(videoPath);
+    std::string videoPath = (argc > 1) ? argv[1] : "src/resources/task_2.mp4";
+    cv::VideoCapture cap(videoPath, cv::CAP_FFMPEG);
     if (!cap.isOpened()) { std::cerr << "cannot open: " << videoPath << std::endl; return -1; }
 
     double fps = cap.get(cv::CAP_PROP_FPS);
@@ -187,5 +187,8 @@ int main(int argc, char** argv) {
     std::cout << "b = " << abcd[1] << " rad/s" << std::endl;
     std::cout << "c = " << abcd[2] << " rad/s  (T = " << 2*M_PI/abcd[2] << " s)" << std::endl;
     std::cout << "d = " << abcd[3] << " rad"  << std::endl;
+
+
+
     return 0;
 }
