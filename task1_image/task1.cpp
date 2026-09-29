@@ -12,7 +12,7 @@ int main() {
     imshow("Original", img);
     waitKey(0);
 
-
+  
     Mat hsv;
     cvtColor(img, hsv, COLOR_BGR2HSV);
     Mat h_img, s_img, v_img;
@@ -53,7 +53,12 @@ int main() {
     imshow("Recognition", drawn_1);
     waitKey(0);
 
-    
+    int w = 200, h = 200;
+    Rect roi(0, 0, w, h);          // x=0, y=0, width=w, height=h
+    Mat cropped = drawn_1(roi).clone(); // 用 clone() 避免与原图共享内存
+    namedWindow("Cropped", WINDOW_NORMAL);
+    imshow("Cropped", cropped);
+    waitKey(0);
 
     
 
